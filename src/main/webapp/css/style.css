@@ -1,0 +1,252 @@
+/* ==========================================================
+   style.css - Modern "glassmorphism + gradient" design system
+   Layered on top of Bootstrap 5.
+   ========================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --brand-1: #6366f1;   /* indigo */
+  --brand-2: #8b5cf6;   /* violet */
+  --brand-3: #06b6d4;   /* cyan */
+  --success-1: #10b981;
+  --danger-1: #f43f5e;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-border: rgba(255, 255, 255, 0.35);
+  --ink: #1e2433;
+  --ink-muted: #667085;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow-soft: 0 10px 30px rgba(31, 41, 55, 0.08);
+  --shadow-hover: 0 18px 40px rgba(99, 102, 241, 0.18);
+}
+
+/* ---------- Animated gradient backdrop ---------- */
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(120deg, #eef2ff 0%, #f5f3ff 35%, #ecfeff 70%, #f0fdfa 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 18s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Soft floating blobs for depth (purely decorative, behind content) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+}
+
+body::before {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  left: -100px;
+  background: radial-gradient(circle, var(--brand-2), transparent 70%);
+}
+
+body::after {
+  width: 480px;
+  height: 480px;
+  bottom: -160px;
+  right: -120px;
+  background: radial-gradient(circle, var(--brand-3), transparent 70%);
+}
+
+/* ---------- Navbar: gradient + glass, shrinks on scroll ---------- */
+.navbar-custom {
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 2px 20px rgba(99, 102, 241, 0.25);
+  transition: box-shadow 0.25s ease, padding 0.25s ease;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-custom.navbar-scrolled {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 6px 26px rgba(99, 102, 241, 0.35);
+}
+
+.navbar-custom .navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- Glass cards ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+  border-bottom: none;
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-2)) !important;
+}
+
+.card-header.bg-success {
+  background: linear-gradient(90deg, var(--success-1), #34d399) !important;
+}
+
+/* Dashboard cards: lift + glow on hover */
+.dashboard-card {
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: var(--shadow-hover);
+}
+
+.dashboard-icon {
+  font-size: 2.6rem;
+  filter: drop-shadow(0 4px 10px rgba(99, 102, 241, 0.35));
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+  border: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.35);
+}
+
+.btn-success {
+  background: linear-gradient(90deg, var(--success-1), #34d399);
+  border: none;
+}
+
+.btn-success:hover {
+  box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
+}
+
+.btn-outline-danger:hover {
+  box-shadow: 0 8px 18px rgba(244, 63, 94, 0.25);
+}
+
+/* ---------- Form fields ---------- */
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: 1px solid #e2e5ec;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.form-control:focus {
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.18);
+}
+
+.form-control.is-valid {
+  border-color: var(--success-1);
+}
+
+.form-control.is-invalid {
+  border-color: var(--danger-1);
+}
+
+/* Password strength bar */
+#passwordStrengthWrapper {
+  height: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e9ecf3;
+  margin-top: 0.4rem;
+}
+
+#passwordStrengthBar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+#passwordStrengthLabel {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+/* ---------- Table ---------- */
+.table {
+  --bs-table-bg: transparent;
+}
+
+.table thead.table-light th {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.table-hover tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.06);
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- Alerts (with auto-dismiss fade) ---------- */
+.alert {
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.alert.fade-out {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* ---------- Modal (delete confirmation) ---------- */
+.modal-content {
+  border-radius: var(--radius-lg);
+  border: none;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: linear-gradient(90deg, var(--danger-1), #fb7185);
+  color: #fff;
+  border-bottom: none;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
